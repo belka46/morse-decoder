@@ -38,9 +38,48 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    // проверить кратность длинны входной строки 10.
+    if (expr.length%10){
+        alert('incorrect value')
+    }else {
+        let str = ``;
+        // циклом берем по 10 символов пока не дойдем до конца строки. в каждой  итерации вызываем функцию декодера
+        for (let i = 0; i <= expr.length - 10;) {
+            let morzeLetter = expr.substr(i, 10);
+            str += decodeLetter(morzeLetter);
+            i += 10;
+        }
+
+        return str;
+    }
+
+
+
+}
+function decodeLetter(expr){
+    let dot = `.`;
+    let dash = `-`;
+    let result = ``;
+    //декодер берет по 2 символа и декодирует в /. или /- формируя кодировку буквы
+    for (let i = 0; i < 10;){
+        let exstr = expr.substr(i, 2);
+        if (exstr === `10`){
+            result += `.`;
+            i += 2;
+        }else if (exstr === `11`) {
+            result += `-`;
+            i += 2;
+        }else if (exstr === `**`) {return ` `}
+        else {
+            i += 2;
+        }
+    }
+    // полученную кодировку сраниваем с таблицей соответствия, результат добавляется в выходную строку.
+    return MORSE_TABLE[result];
 }
 
 module.exports = {
     decode
 }
+const expr = "00101011100011101010101010111100111010101110101010000000101100111011100011101010";
+decode(expr);
